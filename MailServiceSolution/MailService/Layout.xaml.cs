@@ -2,9 +2,9 @@
 
 namespace MailService
 {
-    public partial class MainWindow : Window
+    public partial class Layout : Window
     {
-        public MainWindow()
+        public Layout()
         {
             InitializeComponent();
         }
