@@ -13,9 +13,6 @@ using System.Windows.Shapes;
 
 namespace MailService.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для NewEmail.xaml
-    /// </summary>
     public partial class NewEmail : Page
     {
         public NewEmail()
