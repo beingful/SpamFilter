@@ -1,24 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Configuration;
+﻿using System.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace MailService.DBModels
 {
     public partial class NaiveBayesContext : DbContext
     {
-        public NaiveBayesContext()
-        {
-        }
-
-        //public NaiveBayesContext(DbContextOptions<NaiveBayesContext> options)
-        //    : base(options)
-        //{
-        //}
-
-        private string ConnectionString
+        private string ConnectionString 
             => ConfigurationManager.ConnectionStrings[nameof(NaiveBayesContext)].ConnectionString;
-        public virtual DbSet<Bernoulli> Bernoullis { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Fraction> Fractions { get; set; }
         public virtual DbSet<Model> Models { get; set; }
-        public virtual DbSet<Polynomial> Polynomials { get; set; }
+        public virtual DbSet<Vocabulary> Vocabularies { get; set; }
+        public virtual DbSet<WordInModel> WordInModels { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,16 +25,48 @@ namespace MailService.DBModels
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Cyrillic_General_CI_AS");
 
-            modelBuilder.Entity<Bernoulli>(entity =>
+            modelBuilder.Entity<Category>(entity =>
             {
-                entity.ToTable(nameof(Bernoulli));
+                entity.ToTable(nameof(Category));
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(250);
+            });
+
+            modelBuilder.Entity<Fraction>(entity =>
+            {
+                entity.ToTable(nameof(Fraction));
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<Model>(entity =>
             {
-                entity.HasIndex(e => e.Word, "UQ__Models__95B50108E7FCB680")
+                entity.ToTable(nameof(Model));
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.HasOne(d => d.CorrespondenceNavigation)
+                    .WithMany(p => p.ModelCorrespondenceNavigations)
+                    .HasForeignKey(d => d.Correspondence)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Model__Correspon__236943A5");
+
+                entity.HasOne(d => d.SpamNavigation)
+                    .WithMany(p => p.ModelSpamNavigations)
+                    .HasForeignKey(d => d.Spam)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Model__Spam__22751F6C");
+            });
+
+            modelBuilder.Entity<Vocabulary>(entity =>
+            {
+                entity.ToTable(nameof(Vocabulary));
+
+                entity.HasIndex(e => e.Word, "UQ__Vocabula__95B501084DFF92C9")
                     .IsUnique();
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
@@ -49,25 +74,29 @@ namespace MailService.DBModels
                 entity.Property(e => e.Word)
                     .IsRequired()
                     .HasMaxLength(250);
-
-                entity.HasOne(d => d.Bernoulli)
-                    .WithMany(p => p.Models)
-                    .HasForeignKey(d => d.BernoulliId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Models__Bernoull__5441852A");
-
-                entity.HasOne(d => d.Polynomial)
-                    .WithMany(p => p.Models)
-                    .HasForeignKey(d => d.PolynomialId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Models__Polynomi__5535A963");
             });
 
-            modelBuilder.Entity<Polynomial>(entity =>
+            modelBuilder.Entity<WordInModel>(entity =>
             {
-                entity.ToTable(nameof(Polynomial));
-
                 entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.WordInModel)
+                    .HasForeignKey<WordInModel>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__WordInModels__Id__29221CFB");
+
+                entity.HasOne(d => d.MultinomialNavigation)
+                    .WithMany(p => p.WordInModelMultinomialNavigations)
+                    .HasForeignKey(d => d.Multinomial)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__WordInMod__Multi__2A164134");
+
+                entity.HasOne(d => d.PolynomialNavigation)
+                    .WithMany(p => p.WordInModelPolynomialNavigations)
+                    .HasForeignKey(d => d.Polynomial)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__WordInMod__Polyn__2B0A656D");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -1,15 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MailService.DBModels
 {
     public partial class Model
     {
-        public Guid Id { get; set; }
-        public string Word { get; set; }
-        public Guid BernoulliId { get; set; }
-        public Guid PolynomialId { get; set; }
+        public Model()
+        {
+            WordInModelMultinomialNavigations = new HashSet<WordInModel>();
+            WordInModelPolynomialNavigations = new HashSet<WordInModel>();
+        }
 
-        public virtual Bernoulli Bernoulli { get; set; }
-        public virtual Polynomial Polynomial { get; set; }
+        public Guid Id { get; set; }
+        public Guid Spam { get; set; }
+        public Guid Correspondence { get; set; }
+
+        public virtual Fraction CorrespondenceNavigation { get; set; }
+        public virtual Fraction SpamNavigation { get; set; }
+        public virtual ICollection<WordInModel> WordInModelMultinomialNavigations { get; set; }
+        public virtual ICollection<WordInModel> WordInModelPolynomialNavigations { get; set; }
     }
 }

@@ -43,17 +43,19 @@ namespace MailService.SpamFiltering
 
         private void ChangeEnding(ref string word) 
         {
+            var elseChars = ".+";
+            var signOfEnd = "$";
+
             foreach (var ending in _endings.OrderBy(ending => ending.Count()))
             {
+                var template = new Regex(elseChars + ending + signOfEnd);
+                var endingForRemove = new Regex(ending + signOfEnd);
 
-                var regex = new Regex(ending + "$");
-
-                //if ()
-                //{
-
-                //}
+                if (template.IsMatch(ending))
+                {
+                    word = endingForRemove.Replace(word, string.Empty);
+                } 
             }
-            word = word.TrimEnd('s', 'e', 'i');
         }
 
         private void AllAfterApostropheRemoval(ref string word)

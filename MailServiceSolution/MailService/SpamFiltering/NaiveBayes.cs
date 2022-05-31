@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MailService.SpamFiltering
+﻿namespace MailService.SpamFiltering
 {
     public class NaiveBayes
     {
