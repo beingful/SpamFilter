@@ -3,24 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace MailService.SpamFiltering
+namespace MailService
 {
     public class DataProcessing
     { 
         private readonly static string[] _stopWords;
         private readonly static char[] _separators;
-        private readonly static string[] _endings;
+        private readonly static Dictionary<string, string> _endings;
         private readonly string _text;
 
         static DataProcessing()
         {
             _stopWords = new string[]
             {
-                "a", "the", "am", "is", "are", "he", "she", "it", "they", "them", "this", "that", "those", "will",
-                "have", "has", "would", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
+                "a", "the", "am", "is", "are", "he", "she", "it",
+                "they", "them", "this", "that", "those", "will",
+                "have", "has", "would", "1", "2", "3", "4", "5",
+                "6", "7", "8", "9", "0"
             };
-            _separators = new char[] { ' ', ',', '-', '.', '!', '?', '/', '\"', '\t', '\n', '\r' };
-            _endings = new string[] { "s", "es", "ies" };
+
+            _separators = new char[] { ' ', ',', '-', '.', '!',
+                '?', '/', '\"', '\t', '\n', '\r' };
+
+            _endings = new Dictionary<string, string>
+            {
+                { "s", string.Empty },
+                { "es", "e" },
+                { "ies", "y" }
+            };
         }
 
         public DataProcessing(string text) => _text = AllToLower(text);
@@ -29,8 +39,12 @@ namespace MailService.SpamFiltering
 
         private string[] Tokenization() => _text.Split(_separators);
 
-        private void StopWordsRemoval(ref string[] textVector) 
-            => textVector = textVector.Where(element => !_stopWords.Contains(element)).ToArray();
+        private void StopWordsRemoval(ref string[] textVector)
+        {
+            textVector = textVector
+                .Where(element => !_stopWords.Contains(element))
+                .ToArray();
+        }
 
         private void Stemming(string[] textVector)
         {
@@ -46,14 +60,14 @@ namespace MailService.SpamFiltering
             var elseChars = ".+";
             var signOfEnd = "$";
 
-            foreach (var ending in _endings.OrderBy(ending => ending.Count()))
+            foreach (var ending in _endings.OrderByDescending(end => end.Key.Length))
             {
                 var template = new Regex(elseChars + ending + signOfEnd);
                 var endingForRemove = new Regex(ending + signOfEnd);
 
-                if (template.IsMatch(ending))
+                if (template.IsMatch(ending.Key))
                 {
-                    word = endingForRemove.Replace(word, string.Empty);
+                    word = endingForRemove.Replace(word, ending.Value);
                 } 
             }
         }
@@ -62,7 +76,8 @@ namespace MailService.SpamFiltering
         {
             string apostrophe = "\'";
 
-            if (word.Contains(apostrophe) && word.IndexOf(apostrophe) is int index && index == word.LastIndexOf(apostrophe))
+            if (word.Contains(apostrophe) && word.IndexOf(apostrophe) is int index 
+                && index == word.LastIndexOf(apostrophe))
             {
                 word.Remove(index);
             }

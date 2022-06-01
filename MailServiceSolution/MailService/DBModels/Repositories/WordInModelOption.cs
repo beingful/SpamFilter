@@ -1,7 +1,6 @@
-﻿using MailService.DBModels.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace MailService.DBModels.Repositories
+namespace MailService
 {
     public class WordInModelOption : IModelOption<WordInModel>
     {

@@ -1,8 +1,7 @@
-﻿using MailService.DBModels.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace MailService.DBModels.Repositories
+namespace MailService
 {
     public class Repository : IDisposable
     {

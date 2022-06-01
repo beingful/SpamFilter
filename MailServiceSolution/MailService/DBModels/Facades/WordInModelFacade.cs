@@ -1,8 +1,7 @@
-﻿using MailService.DBModels.Repositories;
-using System;
+﻿using System;
 using System.Linq;
 
-namespace MailService.DBModels.Facades
+namespace MailService
 {
     public class WordInModelFacade : IDisposable
     {

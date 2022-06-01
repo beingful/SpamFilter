@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MailService.DBModels
+namespace MailService
 {
     public partial class Model
     {

@@ -1,7 +1,7 @@
 ﻿using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 
-namespace MailService.DBModels
+namespace MailService
 {
     public partial class NaiveBayesContext : DbContext
     {

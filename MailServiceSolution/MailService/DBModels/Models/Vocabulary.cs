@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MailService.DBModels
+namespace MailService
 {
     public partial class Vocabulary
     {
