@@ -2,7 +2,7 @@
 {
     public interface INaiveBayesModel
     {
-        public double Calculate<CategoryType>()
+        public ModelResult<IEmailCategory> Calculate<CategoryType>()
             where CategoryType : IEmailCategory, new();
     }
 }

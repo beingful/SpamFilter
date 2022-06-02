@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MailService"
         mc:Ignorable="d"
-        Title="Mail Service" Height="720" Width="1250">
+        Title="Mail Service" Height="720" Width="1250" Loaded="WindowIsLoaded">
     <Grid Background="SteelBlue">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*"/>
@@ -30,28 +29,25 @@
                 <RowDefinition Height="0.5*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Border Background="LightPink" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="2" BorderBrush="Black" CornerRadius="10" >
-                <Button Background="LightPink" FontSize="24" BorderThickness="0" BorderBrush="Red" Margin="5" Content="Spam"/>
+            <Border Background="LightPink" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2" 
+                    BorderThickness="2" BorderBrush="Black" CornerRadius="10" >
+                <Button x:Name="Spam" Background="LightPink" FontSize="24" BorderThickness="0" BorderBrush="Red" Margin="5" Content="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Name}" Click="ChangeFrameByClick"/>
             </Border>
             <Grid Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
                 <Ellipse Fill="AliceBlue" StrokeThickness="2" StrokeDashArray="4 2" Stroke="Black" StrokeDashCap="Round"/>
-                <TextBlock FontSize="24" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    0
-                </TextBlock>
+                <TextBlock Text="0" FontSize="24" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Grid>
             <Border Background="AliceBlue" Grid.Row="4" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="2" BorderBrush="Black" CornerRadius="10" >
-                <Button Background="AliceBlue" FontSize="24" BorderThickness="0" BorderBrush="White" Margin="5" Content="Ordinary"/>
+                <Button x:Name="Correspondence" Background="AliceBlue" FontSize="24" BorderThickness="0" BorderBrush="White" Margin="5" Content="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Name}" Click="ChangeFrameByClick"/>
             </Border>
             <Grid Grid.Column="1" Grid.Row="3" Grid.RowSpan="2" Grid.ColumnSpan="2">
                 <Ellipse Fill="AliceBlue" StrokeThickness="2" StrokeDashArray="4 2" Stroke="Black" StrokeDashCap="Round"/>
-                <TextBlock FontSize="24" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    0
-                </TextBlock>
+                <TextBlock Text="0" FontSize="24" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Grid>
         </Grid>
-        <Frame Grid.Column="1" Grid.RowSpan="3" Source="/Pages/NewEmail.xaml"/>
+        <Frame x:Name="PageViewer"  Grid.Column="1" Grid.RowSpan="3" NavigationUIVisibility="Hidden" />
         <Border Margin="10,0,10,10" Background="AliceBlue" Grid.Row="2" BorderThickness="2" BorderBrush="Black" CornerRadius="10" >
-            <Button Name="NewEmail" Background="AliceBlue" FontSize="24" BorderThickness="0" BorderBrush="White" Margin="5" Content="New e-mail"/>
+            <Button x:Name="NewEmail" Background="AliceBlue" FontSize="24" BorderThickness="0" BorderBrush="White" Margin="5" Content="New e-mail" Click="ChangeFrameByClick" />
         </Border>
     </Grid>
 </Window>

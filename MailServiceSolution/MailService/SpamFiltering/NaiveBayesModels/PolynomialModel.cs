@@ -5,24 +5,18 @@ using System.Linq;
 namespace MailService
 {
     internal class PolynomialModel : INaiveBayesModel
-
     {
-        private readonly IEnumerable<string> _words;
-        private readonly IEnumerable<string> _vocabulary;
+        private readonly InputData _data;
 
-        public PolynomialModel(IEnumerable<string> words, IEnumerable<string> vocabulary)
+        public PolynomialModel(InputData data) => _data = data;
+
+        private Dictionary<string, ValueType> GetVectorOfAttributes()
         {
-            _words = words;
-            _vocabulary = vocabulary;
-        }
+            var vector = new Dictionary<string, ValueType>(_data.Vocabulary.Count());
 
-        private Dictionary<string, int> GetVectorOfAttributes()
-        {
-            var vector = new Dictionary<string, int>(_vocabulary.Count());
-
-            foreach (var word in _vocabulary)
+            foreach (var word in _data.Vocabulary)
             {
-                int repeats = _words.Count(element => element == word);
+                int repeats = _data.Words.Count(element => element == word);
 
                 vector.Add(word, repeats);
             }
@@ -47,7 +41,7 @@ namespace MailService
         }
 
         private double CalculateProbability(int numerator, int denominator)
-            => (1 + numerator) / (denominator + _vocabulary.Count());
+            => (1 + numerator) / (denominator + _data.Vocabulary.Count());
 
         private double GetProbabilityLog(int attribute, double probability)
             => - FactorialLog(attribute) + attribute * Math.Log10(probability);
@@ -64,12 +58,12 @@ namespace MailService
             return total;
         }
 
-        public double Calculate<CategoryType>() 
+        public ModelResult<IEmailCategory> Calculate<CategoryType>() 
             where CategoryType : IEmailCategory, new()
         {
-            Dictionary<string, int> vector = GetVectorOfAttributes();
+            Dictionary<string, ValueType> vector = GetVectorOfAttributes();
 
-            double total = FactorialLog(_words.Count());
+            double total = FactorialLog(_data.Words.Count());
 
             foreach (var element in vector)
             {
@@ -77,10 +71,10 @@ namespace MailService
 
                 double probability = CalculateProbability(fraction.Numerator, fraction.Denominator);
 
-                total += GetProbabilityLog(element.Value, probability);
+                total += GetProbabilityLog((int)element.Value, probability);
             }
 
-            return total;
+            return new ModelResult<IEmailCategory>(vector, total);
         }
     }
 }

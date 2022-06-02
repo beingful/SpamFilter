@@ -6,22 +6,17 @@ namespace MailService
 {
     public class BernoulliModel : INaiveBayesModel
     {
-        private readonly IEnumerable<string> _words;
-        private readonly IEnumerable<string> _vocabulary;
+        private readonly InputData _data;
 
-        public BernoulliModel(IEnumerable<string> words, IEnumerable<string> vocabulary)
+        public BernoulliModel(InputData data) => _data = data;
+
+        private Dictionary<string, ValueType> GetVectorOfAttributes()
         {
-            _words = words.Distinct();
-            _vocabulary = vocabulary;
-        }
+            var vector = new Dictionary<string, ValueType>(_data.Vocabulary.Count());
 
-        private Dictionary<string, byte> GetVectorOfAttributes()
-        {
-            var vector = new Dictionary<string, byte>(_vocabulary.Count());
-
-            foreach (var word in _vocabulary)
+            foreach (var word in _data.Vocabulary)
             {
-                bool doesContain = _words.Contains(word);
+                bool doesContain = _data.Words.Contains(word);
 
                 vector.Add(word, Convert.ToByte(doesContain));
             }
@@ -51,10 +46,10 @@ namespace MailService
         private double GetProbabilityLog(byte attribute, double probability)
             => Math.Log10(attribute * probability + (1 - attribute) * (1 - probability));
 
-        public double Calculate<CategoryType>() 
+        public ModelResult<IEmailCategory> Calculate<CategoryType>() 
             where CategoryType : IEmailCategory, new()
         {
-            Dictionary<string, byte> vector = GetVectorOfAttributes();
+            Dictionary<string, ValueType> vector = GetVectorOfAttributes();
 
             double total = 0;
 
@@ -64,10 +59,10 @@ namespace MailService
 
                 double probability = CalculateProbability(fraction.Numerator, fraction.Denominator);
 
-                total += GetProbabilityLog(element.Value, probability);
+                total += GetProbabilityLog((byte)element.Value, probability);
             }
 
-            return total;
+            return new ModelResult<IEmailCategory>(vector, total);
         }
     }
 }
