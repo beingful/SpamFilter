@@ -2,6 +2,6 @@
 {
     public class Correspondence : IEmailCategory
     {
-        public Fraction Get(Model model) => model.SpamNavigation;
+        Fraction IEmailCategory.Get(Model model) => model.SpamNavigation;
     }
 }
