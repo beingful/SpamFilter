@@ -8,7 +8,6 @@ namespace MailService.Pages
 {
     public partial class Category : Page
     {
-        private readonly Frame _frame;
         private readonly IEnumerable<EmailClassification> _emails;
 
         public Category(IEnumerable<EmailClassification> emails)
