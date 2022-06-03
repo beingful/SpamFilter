@@ -68,7 +68,7 @@ namespace MailService.Pages
 
             var selectedEmail = _emails.ElementAt(emailIndex);
 
-            this.NavigationService.Navigate(selectedEmail);
+            NavigationService.Navigate(selectedEmail);
         }
     }
 }
