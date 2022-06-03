@@ -45,7 +45,11 @@ namespace MailService
             IEnumerable<ModelResult<IEmailCategory>> bernoulliResult = GetResult(bernoulliModel);
             IEnumerable<ModelResult<IEmailCategory>> polynomialResult = GetResult(bernoulliModel);
 
-            return new EmailClassification(_text, bernoulliResult, polynomialResult);
+            var function = new LikelihoodFunction(bernoulliResult, polynomialResult);
+
+            string emailCategory = function.ClassifyEmail();
+
+            return new EmailClassification(_text, emailCategory, bernoulliResult, polynomialResult);
         }
     }
 }

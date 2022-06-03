@@ -19,11 +19,14 @@ namespace MailService.Pages
         {
             var text = EmailBox.Text;
 
-            var method = new NaiveBayes(text);
+            if (text != string.Empty)
+            {
+                var method = new NaiveBayes(text);
 
-            EmailClassification email = method.Classify();
+                EmailClassification email = method.Classify();
 
-            _emails.Add(email);
+                _emails.Add(email);
+            }
         }
     }
 }

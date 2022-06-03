@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using MailService.Pages;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace MailService
@@ -16,10 +18,17 @@ namespace MailService
 
             _navigator = new Dictionary<string, Page>
             {
-                { nameof(Pages.NewEmail), new Pages.NewEmail(emails) },
-                { nameof(Spam), new Pages.Category(emails) },
-                { nameof(Correspondence), new Pages.Category(emails) }
+                { nameof(NewEmail), new NewEmail(emails) },
+                { nameof(Spam), new Pages.Category(EmailsOfCategory(nameof(Spam))) },
+                { nameof(Correspondence), new Pages.Category(EmailsOfCategory(nameof(Correspondence))) }
             };
+        }
+
+        public List<EmailClassification> EmailsOfCategory(string categoryName)
+        {
+            return _emails
+                .Where(email => email.Category == categoryName)
+                .ToList();
         }
 
         public Page GetPage() => _navigator[_buttonName];

@@ -19,7 +19,7 @@
             <Grid Margin="5">
                 <TextBox x:Name="EmailBox" FontSize="24" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" BorderThickness="0" BorderBrush="White">
                     <TextBox.Background>
-                        <SolidColorBrush Opacity="0.5"></SolidColorBrush>
+                        <SolidColorBrush Opacity="0.5" />
                     </TextBox.Background>
                 </TextBox>
             </Grid>

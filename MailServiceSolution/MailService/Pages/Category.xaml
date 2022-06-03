@@ -4,31 +4,23 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="800" Loaded="WindowIsLoaded"
       Title="Category">
 
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="0.25*"/>
-            </Grid.ColumnDefinitions>
+        <Grid x:Name="Container" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
-                <RowDefinition />
             </Grid.RowDefinitions>
-            <Border Margin="0, 10, 0, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+            <Border Margin="0, 10, 10, 0" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
                 <Border.Background>
                     <SolidColorBrush Color="White" Opacity="0.5"></SolidColorBrush>
                 </Border.Background>
-                <TextBox FontSize="24" BorderThickness="0" BorderBrush="White" IsReadOnly="True" Height="100" VerticalAlignment="Top" HorizontalAlignment="Center">
-                    <TextBox.Background>
-                        <SolidColorBrush Opacity="0.5"></SolidColorBrush>
-                    </TextBox.Background>
-                </TextBox>
-            </Border>
-            <Border Grid.Column="2" Margin="10" Background="AliceBlue" BorderThickness="2" BorderBrush="Black" CornerRadius="10" >
-                <Button Name="NewEmail" Background="AliceBlue" FontSize="24" BorderThickness="0" BorderBrush="White" Margin="5" Content="More info"/>
+                <Button Margin="5" FontSize="24" BorderThickness="0" BorderBrush="White">
+                    <Button.Background>
+                        <SolidColorBrush Opacity="0.5" />
+                    </Button.Background>
+                </Button>
             </Border>
         </Grid>
     </ScrollViewer>
