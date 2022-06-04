@@ -28,7 +28,7 @@ namespace MailService
         {
             using var facade = new WordInModelFacade();
 
-            Model model = facade.GetMultinomial(word);
+            Model model = facade.GetBernoulli(word);
 
             return model;
         }

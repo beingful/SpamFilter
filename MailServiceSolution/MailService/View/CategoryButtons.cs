@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Media;
 
 namespace MailService
@@ -19,9 +20,10 @@ namespace MailService
 
         public CategoryButtons(string category) => _category = category;
 
-        private void GetCategoryButtonView()
+        public CategoryButtonView GetCategoryButtonView()
         {
-            return 
+            return _buttonViews
+                .First(view => view.Content != _category);
         }
     }
 }

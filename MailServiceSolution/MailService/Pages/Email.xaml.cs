@@ -17,22 +17,26 @@ namespace MailService.Pages
         private void WindowIsLoaded(object sender, RoutedEventArgs e)
         {
             SetText();
-            SetcomboBoxSelectedItem();
+            SetCategoryToChangeButton();
         }
 
         private void SetText() => EmailBox.Text = _email.Text;
 
-        private void SetCategoryButton()
+        private void SetCategoryToChangeButton()
         {
             var buttons = new CategoryButtons(_email.Category);
 
             CategoryButtonView buttonView = buttons.GetCategoryButtonView();
 
-            CategoryToChange.Content = buttonView.Content;
+            string template = CategoryToChange.Content.ToString();
 
+            CategoryToChange.Content = string.Format(template, buttonView.Content);
             CategoryToChange.Background = buttonView.Background;
         }
 
+        private void RelearnByClick(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 }

@@ -1,23 +1,29 @@
-﻿using System.Configuration;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace MailService
 {
     public partial class NaiveBayesContext : DbContext
     {
-        private string ConnectionString 
-            => ConfigurationManager.ConnectionStrings[nameof(NaiveBayesContext)].ConnectionString;
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Fraction> Fractions { get; set; }
         public virtual DbSet<Model> Models { get; set; }
         public virtual DbSet<Vocabulary> Vocabularies { get; set; }
         public virtual DbSet<WordInModel> WordInModels { get; set; }
 
+        private string GetConnectionString()
+        {
+            var connectionString = new ConnectionString(nameof(NaiveBayesContext));
+
+            return connectionString.Get();
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(ConnectionString);
+                string connectionString = GetConnectionString();
+
+                optionsBuilder.UseSqlServer(connectionString);
             }
         }
 

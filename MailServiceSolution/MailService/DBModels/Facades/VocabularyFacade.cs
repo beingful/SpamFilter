@@ -16,6 +16,19 @@ namespace MailService
                 .ToList();
         }
 
+        public Guid Create(string word)
+        {
+            var vocabulary = new Vocabulary
+            {
+                Id = Guid.NewGuid(),
+                Word = word
+            };
+
+            _repository.Insert(vocabulary);
+
+            return vocabulary.Id;
+        }
+
         public void Dispose() => _repository.Dispose();
     }
 }
