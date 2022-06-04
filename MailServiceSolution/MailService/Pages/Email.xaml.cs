@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace MailService.Pages
 {
@@ -12,5 +13,26 @@ namespace MailService.Pages
 
             InitializeComponent();
         }
+
+        private void WindowIsLoaded(object sender, RoutedEventArgs e)
+        {
+            SetText();
+            SetcomboBoxSelectedItem();
+        }
+
+        private void SetText() => EmailBox.Text = _email.Text;
+
+        private void SetCategoryButton()
+        {
+            var buttons = new CategoryButtons(_email.Category);
+
+            CategoryButtonView buttonView = buttons.GetCategoryButtonView();
+
+            CategoryToChange.Content = buttonView.Content;
+
+            CategoryToChange.Background = buttonView.Background;
+        }
+
+
     }
 }
