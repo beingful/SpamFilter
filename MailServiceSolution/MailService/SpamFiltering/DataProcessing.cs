@@ -28,7 +28,6 @@ namespace MailService
             _endings = new Dictionary<string, string>
             {
                 { "s", string.Empty },
-                { "es", "e" },
                 { "ies", "y" }
             };
         }

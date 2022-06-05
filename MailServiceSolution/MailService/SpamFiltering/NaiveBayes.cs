@@ -22,19 +22,42 @@ namespace MailService
             return facade.GetAllTheWords();
         }
 
-        private IEnumerable<ModelResult<IEmailCategory>> GetResult(INaiveBayesModel model)
+        private bool DoesSuchAWordExist(string word)
         {
-            var results = new List<ModelResult<IEmailCategory>>();
+            var facade = new VocabularyFacade();
+
+            return facade.DoesSuchAWordExist(word);
+        }
+
+        private void CreateIfDoesNotExist(IEnumerable<string> vector)
+        {
+            foreach (var word in vector)
+            {
+                if (!DoesSuchAWordExist(word))
+                {
+                    using var facade = new VocabularyFacade();
+
+                    facade.Create(word);
+                }
+            }
+        }
+
+        private ModelResult GetResult(INaiveBayesModel model)
+        {
+            var results = new List<Result<IEmailCategory>>();
 
             results.Add(model.Calculate<Spam>());
             results.Add(model.Calculate<Correspondence>());
 
-            return results;
+            return new ModelResult(model.Attributes, results);
         }
 
         public EmailClassification Classify()
         {
             IEnumerable<string> vector = GetDocumentVector();
+
+            CreateIfDoesNotExist(vector);
+
             IEnumerable<string> vocabulary = GetVocabulary();
 
             var data = new InputData(vector, vocabulary);
@@ -42,14 +65,16 @@ namespace MailService
             var bernoulliModel = new BernoulliModel(data);
             var polynomialModel = new PolynomialModel(data);
 
-            IEnumerable<ModelResult<IEmailCategory>> bernoulliResult = GetResult(bernoulliModel);
-            IEnumerable<ModelResult<IEmailCategory>> polynomialResult = GetResult(bernoulliModel);
+            ModelResult bernoulliResult = GetResult(bernoulliModel);
+            ModelResult polynomialResult = GetResult(bernoulliModel);
 
-            var function = new LikelihoodFunction(bernoulliResult, polynomialResult);
+            var function = new LikelihoodFunction(bernoulliResult.Results, polynomialResult.Results);
 
             string emailCategory = function.ClassifyEmail();
 
-            return new EmailClassification(_text, emailCategory, bernoulliResult, polynomialResult);
+            var textRepresentation = new TextRepresentation(_text, emailCategory, vector);
+
+            return new EmailClassification(textRepresentation, bernoulliResult, polynomialResult);
         }
     }
 }

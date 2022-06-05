@@ -6,17 +6,17 @@ namespace MailService
 {
     public class LikelihoodFunction
     {
-        private readonly ModelResult<IEmailCategory> _bernoulli;
-        private readonly ModelResult<IEmailCategory> _polynomial;
+        private readonly Result<IEmailCategory> _bernoulli;
+        private readonly Result<IEmailCategory> _polynomial;
 
-        public LikelihoodFunction(IEnumerable<ModelResult<IEmailCategory>> bernoulliResult,
-            IEnumerable<ModelResult<IEmailCategory>> polynomialResult)
+        public LikelihoodFunction(IEnumerable<Result<IEmailCategory>> bernoulliResult,
+            IEnumerable<Result<IEmailCategory>> polynomialResult)
         {
             _bernoulli = GetResult(bernoulliResult);
             _polynomial = GetResult(polynomialResult);
         }
 
-        private ModelResult<IEmailCategory> GetResult(IEnumerable<ModelResult<IEmailCategory>> results)
+        private Result<IEmailCategory> GetResult(IEnumerable<Result<IEmailCategory>> results)
         {
             results = results.OrderByDescending(result => result.Probability);
 
@@ -28,9 +28,9 @@ namespace MailService
             Random random = new Random();
 
             return random.Next((int)from, (int)to);
-        } 
+        }
 
-        private double Approximation(double probability, double number) 
+        private double Approximation(double probability, double number)
             => Math.Abs(probability - number);
 
         private string GetPseudorandomCategory()

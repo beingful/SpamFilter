@@ -1,8 +1,13 @@
-﻿namespace MailService
+﻿using System;
+using System.Collections.Generic;
+
+namespace MailService
 {
     public interface INaiveBayesModel
     {
-        public ModelResult<IEmailCategory> Calculate<CategoryType>()
+        public Dictionary<string, ValueType> Attributes { get; }
+
+        public Result<IEmailCategory> Calculate<CategoryType>()
             where CategoryType : IEmailCategory, new();
     }
 }

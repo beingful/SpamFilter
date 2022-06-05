@@ -2,6 +2,6 @@
 {
     public interface IEmailCategory
     {
-        public Fraction Get(Model model);
+        public (int Numerator, int Denominator) Get(IFractionObserver facade, string word);
     }
 }

@@ -10,6 +10,8 @@ namespace MailService
 
         public BernoulliModel(InputData data) => _data = data;
 
+        public Dictionary<string, ValueType> Attributes => GetVectorOfAttributes();
+
         private Dictionary<string, ValueType> GetVectorOfAttributes()
         {
             var vector = new Dictionary<string, ValueType>(_data.Vocabulary.Count());
@@ -24,45 +26,40 @@ namespace MailService
             return vector;
         }
 
-        private Model GetModel(string word)
+        private (int Numerator, int Denominator) GetFraction(string word, IEmailCategory category)
         {
-            using var facade = new WordInModelFacade();
+            using var facade = new BernoulliFacade();
 
-            Model model = facade.GetBernoulli(word);
-
-            return model;
-        }
-
-        private Fraction GetFraction(string word, IEmailCategory category)
-        {
-            Model model = GetModel(word);
-
-            return category.Get(model);
+            return category.Get(facade, word);
         }
 
         private double CalculateProbability(int numerator, int denominator)
-            => (1 + numerator) / (denominator + 2);
+        {
+            return (1 + numerator) / (denominator + 2);
+        }
 
         private double GetProbabilityLog(byte attribute, double probability)
-            => Math.Log10(attribute * probability + (1 - attribute) * (1 - probability));
+        {
+            var wordProbability = attribute * probability + (1 - attribute) * (1 - probability);
 
-        public ModelResult<IEmailCategory> Calculate<CategoryType>() 
+            return Math.Log10(wordProbability);
+        }
+
+        public Result<IEmailCategory> Calculate<CategoryType>()
             where CategoryType : IEmailCategory, new()
         {
-            Dictionary<string, ValueType> vector = GetVectorOfAttributes();
-
             double total = 0;
 
-            foreach (var element in vector)
+            foreach (var element in Attributes)
             {
-                Fraction fraction = GetFraction(element.Key, new CategoryType());
+                (int Numerator, int Denominator) fraction = GetFraction(element.Key, new CategoryType());
 
                 double probability = CalculateProbability(fraction.Numerator, fraction.Denominator);
 
                 total += GetProbabilityLog((byte)element.Value, probability);
             }
 
-            return new ModelResult<IEmailCategory>(vector, total);
+            return new Result<IEmailCategory>(total);
         }
     }
 }

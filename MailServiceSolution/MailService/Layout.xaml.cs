@@ -1,5 +1,4 @@
 ﻿using MailService.Pages;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -7,23 +6,27 @@ namespace MailService
 {
     public partial class Layout : Window
     {
-        private readonly List<EmailClassification> _emails; 
+        private readonly Classifications _classifications;
 
-        public Layout() 
+        public Layout()
         {
-            _emails = new List<EmailClassification>();
+            _classifications = new Classifications();
 
             InitializeComponent();
         }
 
-        private void WindowIsLoaded(object sender, RoutedEventArgs e) 
-            => PageViewer.Navigate(new NewEmail(_emails));
+        private void WindowIsLoaded(object sender, RoutedEventArgs e)
+        {
+            this.DataContext = _classifications;
+
+            PageViewer.Navigate(new NewEmail(_classifications));
+        }
 
         private void ChangeFrameByClick(object sender, RoutedEventArgs e)
         {
             string buttonName = ((Button)sender).Name;
 
-            var navigation = new PageNavigation(buttonName, _emails);
+            var navigation = new PageNavigation(buttonName, _classifications);
 
             Page expectedPage = navigation.GetPage();
 

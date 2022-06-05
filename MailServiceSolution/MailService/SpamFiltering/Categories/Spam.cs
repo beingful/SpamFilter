@@ -2,6 +2,9 @@
 {
     public class Spam : IEmailCategory
     {
-        Fraction IEmailCategory.Get(Model model) => model.SpamNavigation;
+        public (int Numerator, int Denominator) Get(IFractionObserver model, string word)
+        {
+            return model.GetFraction(word, nameof(Spam));
+        }
     }
 }
