@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace MailService
 {
     public class VocabularyOption : IModelOption<Vocabulary>
     {
-        public IEnumerable<Vocabulary> GetAll(NaiveBayesClassifierContext _context)
+        public DbSet<Vocabulary> GetAll(NaiveBayesClassifierContext _context)
         {
             return _context.Vocabularies;
         }

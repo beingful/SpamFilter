@@ -6,17 +6,17 @@ namespace MailService
 {
     public class LikelihoodFunction
     {
-        private readonly Result<IEmailCategory> _bernoulli;
-        private readonly Result<IEmailCategory> _polynomial;
+        private readonly Result _bernoulli;
+        private readonly Result _polynomial;
 
-        public LikelihoodFunction(IEnumerable<Result<IEmailCategory>> bernoulliResult,
-            IEnumerable<Result<IEmailCategory>> polynomialResult)
+        public LikelihoodFunction(IEnumerable<Result> bernoulliResult,
+            IEnumerable<Result> polynomialResult)
         {
             _bernoulli = GetResult(bernoulliResult);
             _polynomial = GetResult(polynomialResult);
         }
 
-        private Result<IEmailCategory> GetResult(IEnumerable<Result<IEmailCategory>> results)
+        private Result GetResult(IEnumerable<Result> results)
         {
             results = results.OrderByDescending(result => result.Probability);
 

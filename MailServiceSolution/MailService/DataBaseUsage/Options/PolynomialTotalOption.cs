@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace MailService
 {
     public class PolynomialTotalOption : IModelOption<PolynomialTotal>
     {
-        public IEnumerable<PolynomialTotal> GetAll(NaiveBayesClassifierContext _context)
+        public DbSet<PolynomialTotal> GetAll(NaiveBayesClassifierContext _context)
         {
             return _context.PolynomialTotals;
         }

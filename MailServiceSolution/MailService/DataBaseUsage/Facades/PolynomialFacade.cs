@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace MailService
 {
@@ -25,8 +27,13 @@ namespace MailService
 
         public (int Numerator, int Denominator) GetFraction(string word, string category)
         {
-            return _facade.GetFraction(word, category,
-                model => ((Polynomial)model).DenominatorNavigation);
+            IQueryable<Polynomial> models = _facade.Get();
+
+            Polynomial model = models
+                .Include(model => model.Total)
+                .First(model => model.Vocabulary.Word == word && model.Category.Name == category);
+
+            return (model.Numerator, model.Total.Count);
         }
 
         public void Dispose() => _facade.Dispose();

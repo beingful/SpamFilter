@@ -35,7 +35,7 @@ namespace MailService
 
         private double CalculateProbability(int numerator, int denominator)
         {
-            return (1 + numerator) / (denominator + 2);
+            return (1 + numerator) / (denominator + 3);
         }
 
         private double GetProbabilityLog(byte attribute, double probability)
@@ -45,7 +45,7 @@ namespace MailService
             return Math.Log10(wordProbability);
         }
 
-        public Result<IEmailCategory> Calculate<CategoryType>()
+        public Result Calculate<CategoryType>()
             where CategoryType : IEmailCategory, new()
         {
             double total = 0;
@@ -59,7 +59,7 @@ namespace MailService
                 total += GetProbabilityLog((byte)element.Value, probability);
             }
 
-            return new Result<IEmailCategory>(total);
+            return new Result(total, typeof(CategoryType).Name);
         }
     }
 }

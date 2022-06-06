@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace MailService
 {
     public interface IModelOption<ModelType> where ModelType : class
     {
-        public IEnumerable<ModelType> GetAll(NaiveBayesClassifierContext _context);
+        public DbSet<ModelType> GetAll(NaiveBayesClassifierContext _context);
     }
 }

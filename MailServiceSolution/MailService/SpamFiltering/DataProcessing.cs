@@ -16,10 +16,10 @@ namespace MailService
         {
             _stopWords = new string[]
             {
-                "a", "the", "am", "is", "are", "he", "she", "it",
-                "they", "them", "this", "that", "those", "will",
-                "have", "has", "would", "1", "2", "3", "4", "5",
-                "6", "7", "8", "9", "0"
+                "a", "the", "am", "is", "are", "i", "he", "she", "it", "you",
+                "they", "them", "this", "that", "those", "will", "be",
+                "do", "does", "have", "has", "would", "may", "to",
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
             };
 
             _separators = new char[] { ' ', ',', '-', '.', '!',
@@ -28,7 +28,9 @@ namespace MailService
             _endings = new Dictionary<string, string>
             {
                 { "s", string.Empty },
-                { "ies", "y" }
+                { "ies", "y" },
+                { "n't", string.Empty },
+                { "ing", string.Empty }
             };
         }
 
@@ -36,7 +38,13 @@ namespace MailService
 
         private string AllToLower(string text) => text.ToLower();
 
-        private string[] Tokenization() => _text.Split(_separators);
+        private string[] Tokenization() 
+        { 
+            return _text
+                .Split(_separators)
+                .Where(word => word != String.Empty)
+                .ToArray();
+        }
 
         private void StopWordsRemoval(ref string[] textVector)
         {
@@ -61,10 +69,10 @@ namespace MailService
 
             foreach (var ending in _endings.OrderByDescending(end => end.Key.Length))
             {
-                var template = new Regex(elseChars + ending + signOfEnd);
-                var endingForRemove = new Regex(ending + signOfEnd);
+                var template = new Regex(elseChars + ending.Key + signOfEnd);
+                var endingForRemove = new Regex(ending.Key + signOfEnd);
 
-                if (template.IsMatch(ending.Key))
+                if (template.IsMatch(word))
                 {
                     word = endingForRemove.Replace(word, ending.Value);
                 } 
@@ -78,11 +86,11 @@ namespace MailService
             if (word.Contains(apostrophe) && word.IndexOf(apostrophe) is int index 
                 && index == word.LastIndexOf(apostrophe))
             {
-                word.Remove(index);
+                word = word.Remove(index);
             }
             else
             {
-                word.Replace(apostrophe, string.Empty);
+                word = word.Replace(apostrophe, string.Empty);
             }
         }
 
@@ -90,8 +98,8 @@ namespace MailService
         {
             string[] textVector = Tokenization();
 
-            StopWordsRemoval(ref textVector);
             Stemming(textVector);
+            StopWordsRemoval(ref textVector);
 
             Array.Sort(textVector);
 

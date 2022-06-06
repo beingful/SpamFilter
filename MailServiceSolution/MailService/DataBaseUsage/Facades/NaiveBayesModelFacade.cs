@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
 namespace MailService
@@ -12,18 +12,20 @@ namespace MailService
 
         public NaiveBayesModelFacade(IModelOption<ModelType> option) => _option = option;
 
-        private IEnumerable<ModelType> GetAll() => _repository.GetAll(_option);
+        private IQueryable<ModelType> GetAll() => _repository.GetAll(_option);
 
-        private IEnumerable<ModelType> GetByWord(string word)
+        public IQueryable<ModelType> Get()
         {
             return GetAll()
-                .Where(element => element.WordNavigation.Word == word);
+                .Include(model => model.Vocabulary)
+                .Include(model => model.Category);
         }
 
-        private ModelType Get(string word, string category)
+        private ModelType GetOne(string word, string category)
         {
-            return GetByWord(word)
-                .FirstOrDefault(model => model.CategoryNavigation.Name == category);
+            return Get()
+                .First(model => model.Vocabulary.Word == word
+                && model.Category.Name == category);
         }
 
         private void Update(ModelType model) => _repository.Update(model);
@@ -31,22 +33,14 @@ namespace MailService
         private void ChangeNumerator(string word, string category,
             int number, Action<IBayesModel, int> changeNumerator)
         {
-            ModelType model = Get(word, category);
+            ModelType model = GetOne(word, category);
 
             changeNumerator(model, number);
 
             Update(model);
         }
 
-        public Guid GetId(string word, string category) => Get(word, category).Id;
-
-        public (int Numerator, int Denominator) GetFraction(string word,
-            string category, Func<IBayesModel, IModelTotal> total)
-        {
-            ModelType model = Get(word, category);
-
-            return (model.Numerator, total(model).Count);
-        }
+        public Guid GetId(string word, string category) => GetOne(word, category).Id;
 
         public void PlusToNumerator(string word, string category, int number)
         {

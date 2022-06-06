@@ -22,21 +22,14 @@ namespace MailService
             return facade.GetAllTheWords();
         }
 
-        private bool DoesSuchAWordExist(string word)
-        {
-            var facade = new VocabularyFacade();
-
-            return facade.DoesSuchAWordExist(word);
-        }
-
         private void CreateIfDoesNotExist(IEnumerable<string> vector)
         {
             foreach (var word in vector)
             {
-                if (!DoesSuchAWordExist(word))
-                {
-                    using var facade = new VocabularyFacade();
+                var facade = new VocabularyFacade();
 
+                if (!facade.DoesSuchAWordExist(word))
+                {
                     facade.Create(word);
                 }
             }
@@ -44,7 +37,7 @@ namespace MailService
 
         private ModelResult GetResult(INaiveBayesModel model)
         {
-            var results = new List<Result<IEmailCategory>>();
+            var results = new List<Result>();
 
             results.Add(model.Calculate<Spam>());
             results.Add(model.Calculate<Correspondence>());

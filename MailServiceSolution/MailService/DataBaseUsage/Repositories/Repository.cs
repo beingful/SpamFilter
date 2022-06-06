@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace MailService
@@ -7,7 +8,7 @@ namespace MailService
     {
         private readonly NaiveBayesClassifierContext _context = new NaiveBayesClassifierContext();
 
-        public IEnumerable<T> GetAll<T>(IModelOption<T> option) where T : class
+        public DbSet<T> GetAll<T>(IModelOption<T> option) where T : class
         {
             return option.GetAll(_context);
         }

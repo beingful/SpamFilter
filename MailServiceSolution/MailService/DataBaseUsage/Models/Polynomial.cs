@@ -5,13 +5,13 @@ namespace MailService
     public partial class Polynomial : IBayesModel
     {
         public Guid Id { get; set; }
-        public Guid Word { get; set; }
-        public Guid Category { get; set; }
+        public Guid VocabularyId { get; set; }
+        public Guid CategoryId { get; set; }
         public int Numerator { get; set; }
-        public Guid Denominator { get; set; }
+        public Guid TotalId { get; set; }
 
-        public virtual Category CategoryNavigation { get; set; }
-        public virtual PolynomialTotal DenominatorNavigation { get; set; }
-        public virtual Vocabulary WordNavigation { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual PolynomialTotal Total { get; set; }
+        public virtual Vocabulary Vocabulary { get; set; }
     }
 }

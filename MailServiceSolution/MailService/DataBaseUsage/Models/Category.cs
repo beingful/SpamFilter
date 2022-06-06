@@ -16,9 +16,9 @@ namespace MailService
         public Guid Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<BernoulliTotal> BernoulliTotals { get; set; }
-        public virtual ICollection<Bernoulli> Bernoullis { get; set; }
-        public virtual ICollection<PolynomialTotal> PolynomialTotals { get; set; }
-        public virtual ICollection<Polynomial> Polynomials { get; set; }
+        public ICollection<BernoulliTotal> BernoulliTotals { get; set; }
+        public ICollection<Bernoulli> Bernoullis { get; set; }
+        public ICollection<PolynomialTotal> PolynomialTotals { get; set; }
+        public ICollection<Polynomial> Polynomials { get; set; }
     }
 }

@@ -55,7 +55,7 @@ namespace MailService
             return total;
         }
 
-        public Result<IEmailCategory> Calculate<CategoryType>()
+        public Result Calculate<CategoryType>()
             where CategoryType : IEmailCategory, new()
         {
             double total = FactorialLog(_data.Words.Count());
@@ -69,7 +69,7 @@ namespace MailService
                 total += GetProbabilityLog((int)element.Value, probability);
             }
 
-            return new Result<IEmailCategory>(total);
+            return new Result(total, typeof(CategoryType).Name);
         }
     }
 }

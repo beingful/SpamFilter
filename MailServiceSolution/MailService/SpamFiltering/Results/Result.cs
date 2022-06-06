@@ -1,11 +1,14 @@
 ﻿namespace MailService
 {
-    public class Result<CategoryType> where CategoryType : IEmailCategory
+    public class Result
     {
         public readonly double Probability;
+        public readonly string Category;
 
-        public Result(double probability) => Probability = probability;
-
-        public string Category => typeof(CategoryType).Name;
+        public Result(double probability, string category) 
+        {
+            Probability = probability;
+            Category = category;
+        }
     }
 }

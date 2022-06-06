@@ -22,7 +22,7 @@ namespace MailService
 
             foreach (var attribute in _attributes)
             {
-                var value = (int)attribute.Value;
+                var value = Convert.ToInt32(attribute.Value);
 
                 if (value != 0)
                 {
@@ -37,7 +37,7 @@ namespace MailService
 
             foreach (var attribute in _attributes)
             {
-                var value = (int)attribute.Value;
+                var value = Convert.ToInt32(attribute.Value);
 
                 if (value != 0)
                 {

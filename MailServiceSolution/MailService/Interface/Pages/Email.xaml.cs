@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace MailService.Pages
@@ -20,6 +21,23 @@ namespace MailService.Pages
             SetCategoryToChangeButton();
         }
 
+        private void SetInfo()
+        {
+            BernoulliSpam.Text = GetInfo(_email.Bernoulli, nameof(Category));
+            BernoulliCorrespondence.Text = GetInfo(_email.Bernoulli, nameof(Correspondence));
+            PolynomialSpam.Text = GetInfo(_email.Polynomial, nameof(Category));
+            PolynomialCorrespondence.Text = GetInfo(_email.Polynomial, nameof(Correspondence));
+        }
+
+        private string GetInfo(ModelResult modelResult, string category)
+        {
+            return modelResult
+                .Results
+                .First(result => result.Category == category)
+                .Probability
+                .ToString();
+        }
+
         private void SetText() => EmailBox.Text = _email.TextRepresentation.Text;
 
         private void SetCategoryToChangeButton()
@@ -36,7 +54,7 @@ namespace MailService.Pages
 
         private void RelearnByClick(object sender, RoutedEventArgs e)
         {
-            var category = ((Button)sender).Content as string;
+            var category = ((Button)sender).GetCategory();
 
             var learning = new Learning(_email, category);
 

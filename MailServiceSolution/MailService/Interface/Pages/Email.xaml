@@ -10,16 +10,21 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width=".6*" />
+            <ColumnDefinition Width=".5*"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width=".5*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="80" />
             <RowDefinition />
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="65"/>
         </Grid.RowDefinitions>
-        <Border Height="70" Margin="0, 10, 10, 0" Grid.Column="1" BorderBrush="Black" BorderThickness="2" CornerRadius="10" Background="AliceBlue" VerticalAlignment="Bottom">
-            <Button x:Name="CategoryToChange" Content="No, it's {0}" Margin="5" BorderThickness="0" Background="AliceBlue" FontSize="24" Click="RelearnByClick" />
+        <Border Height="70" Margin="0, 10, 10, 0" Grid.Column="2" Grid.ColumnSpan="2" Width="330" HorizontalAlignment="Right" BorderBrush="Black" BorderThickness="2" CornerRadius="10" Background="LightPink" VerticalAlignment="Bottom">
+            <Button x:Name="CategoryToChange" Content="No, it's {0}" Margin="5" BorderThickness="0" Background="LightPink" FontSize="24" Click="RelearnByClick" />
         </Border>
-        <Border Grid.Row="1" Grid.ColumnSpan="2" Margin="0, 10, 10, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+        <Border Grid.Row="1" Grid.ColumnSpan="4" Margin="0, 10, 10, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
             <Border.Background>
                 <SolidColorBrush Color="White" Opacity="0.5"/>
             </Border.Background>
@@ -30,6 +35,106 @@
                     </TextBox.Background>
                 </TextBox>
             </Grid>
+        </Border>
+        <Border Grid.Row="2" Grid.ColumnSpan="2" Margin="0, 10, 10, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity="0.5"/>
+            </Border.Background>
+            <TextBox Text="Bernoulli" HorizontalAlignment="Center" FontSize="24" IsReadOnly="True" BorderThickness="0" BorderBrush="White">
+                <TextBox.Background>
+                    <SolidColorBrush Opacity="0.5" />
+                </TextBox.Background>
+            </TextBox>
+        </Border>
+        <Border Grid.Row="3" Margin="0, 10, 10, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity="0.5"/>
+            </Border.Background>
+            <TextBox Text="Spam" HorizontalAlignment="Center" FontSize="24" IsReadOnly="True" BorderThickness="0" BorderBrush="White">
+                <TextBox.Background>
+                    <SolidColorBrush Opacity="0.5" />
+                </TextBox.Background>
+            </TextBox>
+        </Border>
+        <Border Grid.Row="4" Margin="0, 10, 10, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity=".5"/>
+            </Border.Background>
+            <TextBox Text="Correspondence" HorizontalAlignment="Center" FontSize="24" IsReadOnly="True" BorderThickness="0" BorderBrush="White">
+                <TextBox.Background>
+                    <SolidColorBrush Opacity="0.5" />
+                </TextBox.Background>
+            </TextBox>
+        </Border>
+        <Border Grid.Row="3" Grid.Column="1" Margin="0, 10, 10, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity=".5"/>
+            </Border.Background>
+            <TextBox x:Name="BernoulliSpam" HorizontalAlignment="Center" FontSize="24" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" BorderThickness="0" BorderBrush="White">
+                <TextBox.Background>
+                    <SolidColorBrush Opacity="0.5" />
+                </TextBox.Background>
+            </TextBox>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="1" Margin="0, 10, 10, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity=".5"/>
+            </Border.Background>
+            <TextBox x:Name="BernoulliCorrespondence" HorizontalAlignment="Center" FontSize="24" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" BorderThickness="0" BorderBrush="White">
+                <TextBox.Background>
+                    <SolidColorBrush Opacity="0.5" />
+                </TextBox.Background>
+            </TextBox>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="0, 10, 10, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity="0.5"/>
+            </Border.Background>
+            <TextBox Text="Polynomial" HorizontalAlignment="Center" FontSize="24" IsReadOnly="True" BorderThickness="0" BorderBrush="White">
+                <TextBox.Background>
+                    <SolidColorBrush Opacity="0.5" />
+                </TextBox.Background>
+            </TextBox>
+        </Border>
+        <Border Grid.Row="3" Grid.Column="2" Margin="0, 10, 10, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity="0.5"/>
+            </Border.Background>
+            <TextBox Text="Spam" HorizontalAlignment="Center" FontSize="24" IsReadOnly="True" BorderThickness="0" BorderBrush="White">
+                <TextBox.Background>
+                    <SolidColorBrush Opacity="0.5" />
+                </TextBox.Background>
+            </TextBox>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="2" Margin="0, 10, 10, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity=".5"/>
+            </Border.Background>
+            <TextBox Text="Correspondence" HorizontalAlignment="Center" FontSize="24" IsReadOnly="True" BorderThickness="0" BorderBrush="White">
+                <TextBox.Background>
+                    <SolidColorBrush Opacity="0.5" />
+                </TextBox.Background>
+            </TextBox>
+        </Border>
+        <Border Grid.Row="3" Grid.Column="3" Margin="0, 10, 10, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity=".5"/>
+            </Border.Background>
+            <TextBox x:Name="PolynomialSpam" HorizontalAlignment="Center" FontSize="24" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" BorderThickness="0" BorderBrush="White">
+                <TextBox.Background>
+                    <SolidColorBrush Opacity="0.5" />
+                </TextBox.Background>
+            </TextBox>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="3" Margin="0, 10, 10, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity=".5"/>
+            </Border.Background>
+            <TextBox x:Name="PolynomialCorrespondence" HorizontalAlignment="Center" FontSize="24" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" BorderThickness="0" BorderBrush="White">
+                <TextBox.Background>
+                    <SolidColorBrush Opacity="0.5" />
+                </TextBox.Background>
+            </TextBox>
         </Border>
     </Grid>
 </Page>

@@ -8,9 +8,9 @@ namespace MailService.Pages
 {
     public partial class Category : Page
     {
-        private readonly IEnumerable<MailService.EmailClassification> _emails;
+        private readonly IEnumerable<EmailClassification> _emails;
 
-        public Category(IEnumerable<MailService.EmailClassification> emails)
+        public Category(IEnumerable<EmailClassification> emails)
         {
             _emails = emails;
 
@@ -27,14 +27,15 @@ namespace MailService.Pages
                 Button button = Button(text, i.ToString());
                 Border borderWithButton = Border(button);
 
-                AddToContainer(borderWithButton, i + 1);
+                AddToContainer(borderWithButton, rowDefinition, i);
             }
         }
 
-        private void AddToContainer(UIElement child, int row)
+        private void AddToContainer(UIElement child, RowDefinition row, int rowIndex)
         {
-            Grid.SetRow(child, row);
+            Grid.SetRow(child, rowIndex);
 
+            Container.RowDefinitions.Add(row);
             Container.Children.Add(child);
         }
 
@@ -47,7 +48,7 @@ namespace MailService.Pages
 
         private Button Button(string emailPreview, string index)
         {
-            var buttonCreator = new NewButton(emailPreview, index, ChangeFrameByClick, new EmailPreview());
+            var buttonCreator = new NewButton(index, emailPreview, ChangeFrameByClick, new EmailPreview());
 
             return buttonCreator.Create();
         }
@@ -59,15 +60,13 @@ namespace MailService.Pages
             return borderCreator.Create();
         }
 
-        private int EmailIndex(Button button) => Convert.ToInt32(button.Name);
-
         private void ChangeFrameByClick(object sender, RoutedEventArgs e)
         {
-            int emailIndex = EmailIndex((Button)sender);
+            int emailIndex = ((Button)sender).GetButtonIndex();
 
             var selectedEmail = _emails.ElementAt(emailIndex);
 
-            NavigationService.Navigate(selectedEmail);
+            NavigationService.Navigate(new Email(selectedEmail));
         }
     }
 }

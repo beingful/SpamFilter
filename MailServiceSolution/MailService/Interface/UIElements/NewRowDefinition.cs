@@ -9,6 +9,6 @@ namespace MailService.Pages
 
         public NewRowDefinition(double size) => _size = size;
 
-        public RowDefinition Create() => new RowDefinition { Height = new GridLength(_size) };
+        public RowDefinition Create() => new RowDefinition() { Height = new GridLength(_size) };
     }
 }

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace MailService
 {
     public class BernoulliTotalOption : IModelOption<BernoulliTotal>
     {
-        public IEnumerable<BernoulliTotal> GetAll(NaiveBayesClassifierContext _context)
+        public DbSet<BernoulliTotal> GetAll(NaiveBayesClassifierContext _context)
         {
             return _context.BernoulliTotals;
         }

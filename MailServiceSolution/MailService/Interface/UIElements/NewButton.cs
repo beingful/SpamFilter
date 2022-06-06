@@ -13,7 +13,7 @@ namespace MailService.Pages
 
         public NewButton(string name, string content, RoutedEventHandler buttonClick, ITextConverter converter = null)
         {
-            _name = name;
+            _name = nameof(Button) + name;
             _content = content;
             _buttonClick = buttonClick;
             _converter = converter;
@@ -32,6 +32,8 @@ namespace MailService.Pages
                 BorderThickness = new Thickness(0),
                 BorderBrush = Brushes.White,
                 Background = new SolidColorBrush() { Opacity = 0.5 },
+                HorizontalContentAlignment = HorizontalAlignment.Left,
+                VerticalContentAlignment = VerticalAlignment.Center
             };
 
             button.Click += _buttonClick;

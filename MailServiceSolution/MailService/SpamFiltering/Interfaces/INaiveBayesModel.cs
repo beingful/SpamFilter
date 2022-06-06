@@ -7,7 +7,7 @@ namespace MailService
     {
         public Dictionary<string, ValueType> Attributes { get; }
 
-        public Result<IEmailCategory> Calculate<CategoryType>()
+        public Result Calculate<CategoryType>()
             where CategoryType : IEmailCategory, new();
     }
 }

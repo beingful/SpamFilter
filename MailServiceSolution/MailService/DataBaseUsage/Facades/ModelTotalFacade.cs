@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
 namespace MailService
@@ -10,17 +10,15 @@ namespace MailService
         private readonly Repository _repository = new Repository();
         private readonly IModelOption<ModelTotalType> _option;
 
-        public ModelTotalFacade(IModelOption<ModelTotalType> option)
-        {
-            _option = option;
-        }
+        public ModelTotalFacade(IModelOption<ModelTotalType> option) => _option = option;
 
-        private IEnumerable<ModelTotalType> GetAll() => _repository.GetAll(_option);
+        private DbSet<ModelTotalType> GetAll() => _repository.GetAll(_option);
 
         private ModelTotalType GetOne(string category)
         {
             return GetAll()
-                .First(total => total.CategoryNavigation.Name == category);
+                .Include(total => total.Category)
+                .First(total => total.Category.Name == category);
         }
 
         private void Update(ModelTotalType total) => _repository.Update(total);
@@ -33,8 +31,6 @@ namespace MailService
 
             Update(total);
         }
-
-        public Guid GetTotal(string category) => GetOne(category).Id;
 
         public void Plus(string category, int count)
         {

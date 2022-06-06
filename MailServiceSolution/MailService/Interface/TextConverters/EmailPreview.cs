@@ -11,7 +11,7 @@ namespace MailService.Pages
 
             ReplaceWhiteSymbols(ref text);
 
-            if (text.Length >= totalCount)
+            if (text.Length <= totalCount)
             {
                 textForPreview = text.Substring(0, text.Length);
             }
@@ -23,11 +23,11 @@ namespace MailService.Pages
             return textForPreview;
         }
 
-        private string ReplaceWhiteSymbols(ref string text)
+        private void ReplaceWhiteSymbols(ref string text)
         {
             var whiteSpaces = new Regex("\n|\t|\r");
 
-            return whiteSpaces.Replace(text, " ");
+            text = whiteSpaces.Replace(text, " ");
         }
     }
 }

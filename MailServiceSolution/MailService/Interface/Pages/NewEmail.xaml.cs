@@ -25,6 +25,8 @@ namespace MailService.Pages
                 StartLearning(email);
 
                 _classifications.AddClassification(email);
+
+                EmailBox.Text = string.Empty;
             }
         }
 

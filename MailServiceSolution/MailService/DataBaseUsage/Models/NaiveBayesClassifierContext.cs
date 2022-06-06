@@ -20,12 +20,9 @@ namespace MailService
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                var connectionString = ConnectionString();
+            var connectionString = ConnectionString();
 
-                optionsBuilder.UseSqlServer(connectionString);
-            }
+            optionsBuilder.UseSqlServer(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,21 +35,21 @@ namespace MailService
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.HasOne(d => d.CategoryNavigation)
+                entity.HasOne(d => d.Category)
                     .WithMany(p => p.Bernoullis)
-                    .HasForeignKey(d => d.Category)
+                    .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Bernoulli__Categ__412EB0B6");
 
-                entity.HasOne(d => d.DenominatorNavigation)
+                entity.HasOne(d => d.Total)
                     .WithMany(p => p.Bernoullis)
-                    .HasForeignKey(d => d.Denominator)
+                    .HasForeignKey(d => d.TotalId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Bernoulli__Denom__4316F928");
 
-                entity.HasOne(d => d.WordNavigation)
+                entity.HasOne(d => d.Vocabulary)
                     .WithMany(p => p.Bernoullis)
-                    .HasForeignKey(d => d.Word)
+                    .HasForeignKey(d => d.VocabularyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Bernoulli__Word__403A8C7D");
             });
@@ -63,9 +60,9 @@ namespace MailService
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.HasOne(d => d.CategoryNavigation)
+                entity.HasOne(d => d.Category)
                     .WithMany(p => p.BernoulliTotals)
-                    .HasForeignKey(d => d.Category)
+                    .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Bernoulli__Categ__3C69FB99");
             });
@@ -90,21 +87,21 @@ namespace MailService
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.HasOne(d => d.CategoryNavigation)
+                entity.HasOne(d => d.Category)
                     .WithMany(p => p.Polynomials)
-                    .HasForeignKey(d => d.Category)
+                    .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Polynomia__Categ__4AB81AF0");
 
-                entity.HasOne(d => d.DenominatorNavigation)
+                entity.HasOne(d => d.Total)
                     .WithMany(p => p.Polynomials)
-                    .HasForeignKey(d => d.Denominator)
+                    .HasForeignKey(d => d.TotalId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Polynomia__Denom__4CA06362");
 
-                entity.HasOne(d => d.WordNavigation)
+                entity.HasOne(d => d.Vocabulary)
                     .WithMany(p => p.Polynomials)
-                    .HasForeignKey(d => d.Word)
+                    .HasForeignKey(d => d.VocabularyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Polynomial__Word__49C3F6B7");
             });
@@ -115,9 +112,9 @@ namespace MailService
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.HasOne(d => d.CategoryNavigation)
+                entity.HasOne(d => d.Category)
                     .WithMany(p => p.PolynomialTotals)
-                    .HasForeignKey(d => d.Category)
+                    .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Polynomia__Categ__45F365D3");
             });
