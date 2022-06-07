@@ -27,7 +27,7 @@ namespace MailService
         {
             Random random = new Random();
 
-            return random.Next((int)from, (int)to);
+            return random.Next(Convert.ToInt32(from), Convert.ToInt32(to));
         }
 
         private double Approximation(double probability, double number)

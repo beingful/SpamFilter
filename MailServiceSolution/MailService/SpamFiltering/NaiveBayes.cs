@@ -59,15 +59,13 @@ namespace MailService
             var polynomialModel = new PolynomialModel(data);
 
             ModelResult bernoulliResult = GetResult(bernoulliModel);
-            ModelResult polynomialResult = GetResult(bernoulliModel);
+            ModelResult polynomialResult = GetResult(polynomialModel);
 
             var function = new LikelihoodFunction(bernoulliResult.Results, polynomialResult.Results);
 
-            string emailCategory = function.ClassifyEmail();
+            string category = function.ClassifyEmail();
 
-            var textRepresentation = new TextRepresentation(_text, emailCategory, vector);
-
-            return new EmailClassification(textRepresentation, bernoulliResult, polynomialResult);
+            return new EmailClassification(_text, category, bernoulliResult, polynomialResult);
         }
     }
 }

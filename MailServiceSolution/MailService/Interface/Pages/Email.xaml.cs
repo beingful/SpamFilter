@@ -38,11 +38,11 @@ namespace MailService.Pages
                 .ToString();
         }
 
-        private void SetText() => EmailBox.Text = _email.TextRepresentation.Text;
+        private void SetText() => EmailBox.Text = _email.Text;
 
         private void SetCategoryToChangeButton()
         {
-            var buttons = new CategoryButtons(_email.TextRepresentation.Category);
+            var buttons = new CategoryButtons(_email.Category);
 
             CategoryButtonView buttonView = buttons.GetCategoryButtonView();
 
@@ -54,13 +54,15 @@ namespace MailService.Pages
 
         private void RelearnByClick(object sender, RoutedEventArgs e)
         {
-            var category = ((Button)sender).GetCategory();
+            var button = (Button)sender;
+
+            string category = button.GetCategory();
 
             var learning = new Learning(_email, category);
 
             learning.Start();
 
-            _email.TextRepresentation.Category = category;
+            button.IsEnabled = true;
         }
     }
 }

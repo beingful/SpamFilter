@@ -12,13 +12,14 @@ namespace MailService
         public Learning(EmailClassification email, string category = null)
         {
             _email = email;
-            _category = category ?? _email.TextRepresentation.Category;
+            _category = category ?? _email.Category;
         }
 
         public void Start()
         {
-            int total = _email.TextRepresentation.Vector.Count();
-            string oldCategory = _email.TextRepresentation.Category;
+            int total = GetPolynomialTotal();
+
+            string oldCategory = _email.Category;
 
             if (oldCategory == _category)
             {
@@ -35,7 +36,17 @@ namespace MailService
 
                 bernoulli.Recalculate(1, oldCategory);
                 polynomial.Recalculate(total, oldCategory);
+
+                _email.ChangeCategory(_category);
             }
+        }
+
+        private int GetPolynomialTotal()
+        {
+            return _email
+                .Polynomial
+                .Attributes
+                .Sum(attribute => Convert.ToInt32(attribute.Value));
         }
 
         private ModelLearning<BernoulliFacade, BernoulliTotalFacade> GetBernoulli()

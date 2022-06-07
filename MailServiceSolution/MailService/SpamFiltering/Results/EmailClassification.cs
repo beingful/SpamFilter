@@ -1,17 +1,31 @@
-﻿namespace MailService
+﻿using System.ComponentModel;
+
+namespace MailService
 {
-    public class EmailClassification
+    public class EmailClassification : INotifyPropertyChanged
     {
-        public readonly TextRepresentation TextRepresentation;
+        public readonly string Text;
         public readonly ModelResult Bernoulli;
         public readonly ModelResult Polynomial;
 
-        public EmailClassification(TextRepresentation textRepresentation,
+        public EmailClassification(string text, string category,
             ModelResult bernoulli, ModelResult polynomial)
         {
-            TextRepresentation = textRepresentation;
+            Text = text;
             Bernoulli = bernoulli;
             Polynomial = polynomial;
+            Category = category;
+        }
+
+        public string Category { get; private set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void ChangeCategory(string category)
+        {
+            Category = category;
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Category)));
         }
     }
 }

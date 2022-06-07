@@ -35,7 +35,7 @@ namespace MailService
 
         private double CalculateProbability(int numerator, int denominator)
         {
-            return (1 + numerator) / (denominator + 3);
+            return (1 + numerator) / (denominator + 2);
         }
 
         private double GetProbabilityLog(byte attribute, double probability)

@@ -21,7 +21,7 @@ namespace MailService.Pages
         {
             for (int i = 0; i < _emails.Count(); i++)
             {
-                string text = _emails.ElementAt(i).TextRepresentation.Text;
+                string text = _emails.ElementAt(i).Text;
 
                 RowDefinition rowDefinition = RowDefinition();
                 Button button = Button(text, i.ToString());
