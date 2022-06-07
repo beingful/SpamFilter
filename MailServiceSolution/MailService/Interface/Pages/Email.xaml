@@ -21,8 +21,11 @@
             <RowDefinition Height="65"/>
             <RowDefinition Height="65"/>
         </Grid.RowDefinitions>
-        <Border Height="70" Margin="0, 10, 10, 0" Grid.Column="2" Grid.ColumnSpan="2" Width="330" HorizontalAlignment="Right" BorderBrush="Black" BorderThickness="2" CornerRadius="10" Background="LightPink" VerticalAlignment="Bottom">
-            <Button x:Name="CategoryToChange" Content="No, it's {0}" Margin="5" BorderThickness="0" Background="LightPink" FontSize="24" Click="RelearnByClick" />
+        <Border Height="70" Margin="0, 10, 10, 0" Grid.Column="2" Grid.ColumnSpan="2" Width="330" HorizontalAlignment="Right" BorderBrush="Black" BorderThickness="2" CornerRadius="10" VerticalAlignment="Bottom">
+            <Border.Background>
+                <SolidColorBrush Color="White" Opacity="0"></SolidColorBrush>
+            </Border.Background>
+            <Button x:Name="CategoryToChange" Content="No, it's {0}" Margin="5" BorderThickness="0" FontSize="24" Click="RelearnByClick" />
         </Border>
         <Border Grid.Row="1" Grid.ColumnSpan="4" Margin="0, 10, 10, 10" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
             <Border.Background>

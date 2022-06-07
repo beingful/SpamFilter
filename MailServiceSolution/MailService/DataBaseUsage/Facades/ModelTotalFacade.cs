@@ -16,9 +16,10 @@ namespace MailService
 
         private ModelTotalType GetOne(string category)
         {
-            return GetAll()
-                .Include(total => total.Category)
-                .First(total => total.Category.Name == category);
+            var all = GetAll().Include(total => total.Category);
+            var notall = all.FirstOrDefault(total => total.Category.Name == category);
+
+            return notall;
         }
 
         private void Update(ModelTotalType total) => _repository.Update(total);

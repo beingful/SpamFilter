@@ -2,6 +2,6 @@
 {
     internal interface IRelearn
     {
-        public void Recalculate(int count, string oldCategory);
+        public void Recalculate(string oldCategory, string newCategory, int count);
     }
 }

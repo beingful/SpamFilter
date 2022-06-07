@@ -39,6 +39,9 @@ namespace MailService
         {
             var results = new List<Result>();
 
+            var a = model.Calculate<Spam>();
+            var b = model.Calculate<Correspondence>();
+
             results.Add(model.Calculate<Spam>());
             results.Add(model.Calculate<Correspondence>());
 

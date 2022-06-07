@@ -2,6 +2,6 @@
 {
     public interface ILearn
     {
-        public void Calculate(int count);
+        public void Calculate(string category, int count);
     }
 }

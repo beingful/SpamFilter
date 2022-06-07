@@ -18,14 +18,15 @@ namespace MailService.Pages
         private void WindowIsLoaded(object sender, RoutedEventArgs e)
         {
             SetText();
+            SetInfo();
             SetCategoryToChangeButton();
         }
 
         private void SetInfo()
         {
-            BernoulliSpam.Text = GetInfo(_email.Bernoulli, nameof(Category));
+            BernoulliSpam.Text = GetInfo(_email.Bernoulli, nameof(Spam));
             BernoulliCorrespondence.Text = GetInfo(_email.Bernoulli, nameof(Correspondence));
-            PolynomialSpam.Text = GetInfo(_email.Polynomial, nameof(Category));
+            PolynomialSpam.Text = GetInfo(_email.Polynomial, nameof(Spam));
             PolynomialCorrespondence.Text = GetInfo(_email.Polynomial, nameof(Correspondence));
         }
 
@@ -62,7 +63,7 @@ namespace MailService.Pages
 
             learning.Start();
 
-            button.IsEnabled = true;
+            button.IsEnabled = false;
         }
     }
 }

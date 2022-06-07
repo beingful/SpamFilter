@@ -8,17 +8,12 @@ namespace MailService
         where TotalFacadeType : class, IDenominatorManager, new()
     {
         private readonly Dictionary<string, ValueType> _attributes;
-        private readonly string _category;
 
-        public ModelLearning(Dictionary<string, ValueType> attributes, string category)
-        {
-            _attributes = attributes;
-            _category = category;
-        }
+        public ModelLearning(Dictionary<string, ValueType> attributes) => _attributes = attributes;
 
-        void ILearn.Calculate(int count)
+        void ILearn.Calculate(string category, int count)
         {
-            PlusToDenominator(count);
+            PlusToDenominator(category, count);
 
             foreach (var attribute in _attributes)
             {
@@ -26,14 +21,15 @@ namespace MailService
 
                 if (value != 0)
                 {
-                    PlusToNumerator(attribute.Key, value);
+                    PlusToNumerator(attribute.Key, category, value);
                 }
             }
         }
 
-        void IRelearn.Recalculate(int count, string oldCategory)
+        void IRelearn.Recalculate(string oldCategory, string newCategory, int count)
         {
-            MinusFromDenominator(count);
+            MinusFromDenominator(oldCategory, count);
+            PlusToDenominator(newCategory, count);
 
             foreach (var attribute in _attributes)
             {
@@ -41,38 +37,38 @@ namespace MailService
 
                 if (value != 0)
                 {
-                    MinusFromNumerator(attribute.Key, value, oldCategory);
-                    PlusToNumerator(attribute.Key, value);
+                    MinusFromNumerator(attribute.Key, oldCategory, value);
+                    PlusToNumerator(attribute.Key, newCategory, value);
                 }
             }
         }
 
-        private void PlusToDenominator(int count)
+        private void PlusToDenominator(string category, int count)
         {
             using var facade = new TotalFacadeType();
 
-            facade.Plus(_category, count);
+            facade.Plus(category, count);
         }
 
-        private void MinusFromDenominator(int count)
+        private void MinusFromDenominator(string category, int count)
         {
             using var facade = new TotalFacadeType();
 
-            facade.Minus(_category, count);
+            facade.Minus(category, count);
         }
 
-        private void PlusToNumerator(string word, int count)
+        private void PlusToNumerator(string word, string category, int count)
         {
             using var facade = new ModelFacadeType();
 
-            facade.PlusToNumerator(word, _category, count);
+            facade.PlusToNumerator(word, category, count);
         }
 
-        private void MinusFromNumerator(string word, int count, string oldCategory)
+        private void MinusFromNumerator(string word, string category, int count)
         {
             using var facade = new ModelFacadeType();
 
-            facade.MinusFromNumerator(word, oldCategory, count);
+            facade.MinusFromNumerator(word, category, count);
         }
     }
 }

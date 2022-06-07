@@ -23,7 +23,7 @@ namespace MailService
 
         public static string GetCategory(this Button button)
         {
-            var regex = new Regex($".+{nameof(Spam)}|{nameof(Correspondence)}");
+            var regex = new Regex($"{nameof(Spam)}|{nameof(Correspondence)}");
 
             string content = (string)button.Content;
 
