@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MailService
 {
@@ -58,16 +59,23 @@ namespace MailService
         public Result Calculate<CategoryType>()
             where CategoryType : IEmailCategory, new()
         {
+            var tasks = new List<Task>(Attributes.Count);
+
             double total = FactorialLog(_data.Words.Count());
 
             foreach (var element in Attributes)
             {
-                (int Numerator, int Denominator) fraction = GetFraction(element.Key, new CategoryType());
+                tasks.Add(Task.Run(() =>
+                {
+                    (int Numerator, int Denominator) fraction = GetFraction(element.Key, new CategoryType());
 
-                double probability = CalculateProbability(fraction.Numerator, fraction.Denominator);
+                    double probability = CalculateProbability(fraction.Numerator, fraction.Denominator);
 
-                total += GetProbabilityLog((int)element.Value, probability);
+                    total += GetProbabilityLog((int)element.Value, probability);
+                }));
             }
+
+            Task.WhenAll(tasks);
 
             return new Result(total, typeof(CategoryType).Name);
         }

@@ -22,9 +22,9 @@ namespace MailService.Pages
             {
                 EmailClassification email = StartBayes(text);
 
-                StartLearning(email);
-
                 _classifications.AddClassification(email);
+
+                StartLearning(email);
 
                 EmailBox.Text = string.Empty;
             }
