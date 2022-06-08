@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace MailService.Pages
@@ -14,17 +15,19 @@ namespace MailService.Pages
             InitializeComponent();
         }
 
-        private void UseNaiveBayes(object sender, RoutedEventArgs e)
+        private async void UseNaiveBayes(object sender, RoutedEventArgs e)
         {
             var text = EmailBox.Text;
 
             if (text != string.Empty)
             {
-                EmailClassification email = StartBayes(text);
+                await Task.Run(() => StartBayes(text))
+                    .ContinueWith((classification) =>
+                    {
+                        _classifications.AddClassification(classification.Result);
 
-                _classifications.AddClassification(email);
-
-                StartLearning(email);
+                        StartLearning(classification.Result);
+                    });
 
                 EmailBox.Text = string.Empty;
             }

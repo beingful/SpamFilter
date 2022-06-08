@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -56,14 +57,20 @@ namespace MailService.Pages
         private void RelearnByClick(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
+            var category = button.GetCategory();
 
-            string category = button.GetCategory();
+            Task.Run(() => StartLearning(category));
 
+            _email.ChangeCategory(category);
+
+            button.IsEnabled = false;
+        }
+
+        private void StartLearning(string category)
+        {
             var learning = new Learning(_email, category);
 
             learning.Start();
-
-            button.IsEnabled = false;
         }
     }
 }

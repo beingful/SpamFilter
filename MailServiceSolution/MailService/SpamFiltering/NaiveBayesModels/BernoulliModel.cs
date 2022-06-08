@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace MailService
 {
@@ -51,21 +50,17 @@ namespace MailService
         {
             double total = 0;
 
-            var tasks = new List<Task>(Attributes.Count);
-
-            foreach (var element in Attributes)
-            {
-                tasks.Add(Task.Run(() =>
+            total += Attributes
+                .AsParallel()
+                .Sum(element =>
                 {
                     (int Numerator, int Denominator) fraction = GetFraction(element.Key, new CategoryType());
 
                     double probability = CalculateProbability(fraction.Numerator, fraction.Denominator);
+                    double probabilityLog = GetProbabilityLog((byte)element.Value, probability);
 
-                    total += GetProbabilityLog((byte)element.Value, probability);
-                }));
-            }
-
-            Task.WhenAll(tasks.ToArray());
+                    return GetProbabilityLog((byte)element.Value, probability);
+                });
 
             return new Result(total, typeof(CategoryType).Name);
         }

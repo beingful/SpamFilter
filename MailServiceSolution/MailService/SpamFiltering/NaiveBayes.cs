@@ -45,7 +45,7 @@ namespace MailService
             return new ModelResult(model.Attributes, results);
         }
 
-        public EmailClassification Classify()
+        private InputData GetInputData()
         {
             IEnumerable<string> vector = GetDocumentVector();
 
@@ -53,7 +53,12 @@ namespace MailService
 
             IEnumerable<string> vocabulary = GetVocabulary();
 
-            var data = new InputData(vector, vocabulary);
+            return new InputData(vector, vocabulary);
+        }
+
+        public EmailClassification Classify()
+        {
+            InputData data = GetInputData();
 
             var bernoulliModel = new BernoulliModel(data);
             var polynomialModel = new PolynomialModel(data);

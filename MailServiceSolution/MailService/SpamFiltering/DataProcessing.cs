@@ -6,11 +6,11 @@ using System.Text.RegularExpressions;
 namespace MailService
 {
     public class DataProcessing
-    { 
-        private readonly static string[] _stopWords;
-        private readonly static char[] _separators;
-        private readonly static Dictionary<string, string> _endings;
+    {
         private readonly string _text;
+        private readonly static char[] _separators;
+        private readonly static string[] _stopWords;
+        private readonly static IEnumerable<KeyValuePair<string, string>> _endings;
 
         static DataProcessing()
         {
@@ -18,8 +18,8 @@ namespace MailService
             {
                 "a", "the", "am", "is", "are", "i", "he", "she", "it", "you",
                 "they", "them", "this", "that", "those", "will", "be",
-                "do", "does", "have", "has", "would", "may", "to",
-                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
+                "do", "does", "have", "has", "would", "may", "to", "and",
+                "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", string.Empty
             };
 
             _separators = new char[] { ' ', ',', '-', '.', '!',
@@ -27,81 +27,58 @@ namespace MailService
 
             _endings = new Dictionary<string, string>
             {
-                { "s", string.Empty },
                 { "ies", "y" },
                 { "n't", string.Empty },
-                { "ing", string.Empty }
+                { "'ll", string.Empty },
+                { "'d", string.Empty },
+                { "ing", string.Empty },
+                { "s", string.Empty },
+
             };
         }
 
-        public DataProcessing(string text) => _text = AllToLower(text);
+        public DataProcessing(string text) => _text = text;
 
-        private string AllToLower(string text) => text.ToLower();
+        private List<string> Tokenization() => _text.Split(_separators).ToList();
 
-        private string[] Tokenization() 
-        { 
-            return _text
-                .Split(_separators)
-                .Where(word => word != String.Empty)
-                .ToArray();
-        }
-
-        private void StopWordsRemoval(ref string[] textVector)
+        private string Stemming(string word) 
         {
-            textVector = textVector
-                .Where(element => !_stopWords.Contains(element))
-                .ToArray();
-        }
+            string normalizedWord = word;
 
-        private void Stemming(string[] textVector)
-        {
-            for (int i = 0; i < textVector.Length; i++)
+            foreach (var ending in _endings)
             {
-                ChangeEnding(ref textVector[i]);
-                AllAfterApostropheRemoval(ref textVector[i]);
-            }
-        }
-
-        private void ChangeEnding(ref string word) 
-        {
-            var elseChars = ".+";
-            var signOfEnd = "$";
-
-            foreach (var ending in _endings.OrderByDescending(end => end.Key.Length))
-            {
-                var template = new Regex(elseChars + ending.Key + signOfEnd);
-                var endingForRemove = new Regex(ending.Key + signOfEnd);
+                var template = new Regex($".+{ending.Key}$");
 
                 if (template.IsMatch(word))
                 {
-                    word = endingForRemove.Replace(word, ending.Value);
+                    normalizedWord = word.Replace(ending.Key, ending.Value);
+
+                    break;
                 } 
             }
-        }
 
-        private void AllAfterApostropheRemoval(ref string word)
-        {
-            string apostrophe = "\'";
-
-            if (word.Contains(apostrophe) && word.IndexOf(apostrophe) is int index 
-                && index == word.LastIndexOf(apostrophe))
-            {
-                word = word.Remove(index);
-            }
-            else
-            {
-                word = word.Replace(apostrophe, string.Empty);
-            }
+            return normalizedWord;
         }
 
         public IEnumerable<string> Start()
         {
-            string[] textVector = Tokenization();
+            List<string> textVector = Tokenization();
 
-            Stemming(textVector);
-            StopWordsRemoval(ref textVector);
+            for (int i = 0; i < textVector.Count; i++)
+            {
+                textVector[i] = textVector[i].ToLower();
 
-            Array.Sort(textVector);
+                if (_stopWords.Contains(textVector[i]))
+                {
+                    textVector.RemoveAt(i);
+
+                    i--;
+                }
+                else
+                {
+                    textVector[i] = Stemming(textVector[i]);
+                }
+            }
 
             return textVector;
         }

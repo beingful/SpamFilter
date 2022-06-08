@@ -36,8 +36,6 @@ namespace MailService
 
                 bernoulli.Recalculate(oldCategory, _category, 1);
                 polynomial.Recalculate(oldCategory, _category, total);
-
-                _email.ChangeCategory(_category);
             }
         }
 

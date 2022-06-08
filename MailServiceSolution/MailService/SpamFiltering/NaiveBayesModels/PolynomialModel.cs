@@ -59,23 +59,19 @@ namespace MailService
         public Result Calculate<CategoryType>()
             where CategoryType : IEmailCategory, new()
         {
-            var tasks = new List<Task>(Attributes.Count);
-
             double total = FactorialLog(_data.Words.Count());
 
-            foreach (var element in Attributes)
-            {
-                tasks.Add(Task.Run(() =>
+            total += Attributes
+                .AsParallel()
+                .Sum(element => 
                 {
                     (int Numerator, int Denominator) fraction = GetFraction(element.Key, new CategoryType());
 
                     double probability = CalculateProbability(fraction.Numerator, fraction.Denominator);
+                    double probabilityLog = GetProbabilityLog((int)element.Value, probability);
 
-                    total += GetProbabilityLog((int)element.Value, probability);
-                }));
-            }
-
-            Task.WhenAll(tasks);
+                    return GetProbabilityLog((int)element.Value, probability);
+                });
 
             return new Result(total, typeof(CategoryType).Name);
         }
