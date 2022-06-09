@@ -23,11 +23,11 @@ namespace MailService
             return results.First();
         }
 
-        private int PseudorandomNumber(ValueType from, ValueType to)
+        private int PseudorandomNumber(int from, int to)
         {
             Random random = new Random();
 
-            return random.Next(Convert.ToInt32(from), Convert.ToInt32(to));
+            return random.Next(from, to);
         }
 
         private double Approximation(double probability, double number)
@@ -37,7 +37,10 @@ namespace MailService
         {
             string emailCategory;
 
-            double number = PseudorandomNumber(_bernoulli.Probability, _polynomial.Probability);
+            int to = Math.Max(Convert.ToInt32(_bernoulli.Probability), Convert.ToInt32(_polynomial.Probability));
+            int from = Math.Min(Convert.ToInt32(_bernoulli.Probability), Convert.ToInt32(_polynomial.Probability));
+
+            double number = PseudorandomNumber(from, to);
 
             if (Approximation(_bernoulli.Probability, number)
                 > Approximation(_polynomial.Probability, number))

@@ -31,6 +31,8 @@ namespace MailService
                 { "n't", string.Empty },
                 { "'ll", string.Empty },
                 { "'d", string.Empty },
+                { "'s", string.Empty },
+                { "'ve", string.Empty },
                 { "ing", string.Empty },
                 { "s", string.Empty },
 

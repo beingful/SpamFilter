@@ -61,6 +61,8 @@ namespace MailService.Pages
 
             Task.Run(() => StartLearning(category));
 
+            Task.Delay(100);
+
             _email.ChangeCategory(category);
 
             button.IsEnabled = false;

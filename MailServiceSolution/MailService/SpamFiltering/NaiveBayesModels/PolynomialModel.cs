@@ -35,7 +35,7 @@ namespace MailService
 
         private double CalculateProbability(int numerator, int denominator)
         {
-            return (double)(1 + numerator) / (denominator + _data.Vocabulary.Count());
+            return (double)(1 + numerator) / (1 + denominator + _data.Vocabulary.Count());
         }
 
         private double GetProbabilityLog(int attribute, double probability)

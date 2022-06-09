@@ -22,7 +22,7 @@ namespace MailService
 
         public void MinusFromNumerator(string word, string category, int number)
         {
-            _facade.PlusToNumerator(word, category, number);
+            _facade.MinusFromNumerator(word, category, number);
         }
 
         public (int Numerator, int Denominator) GetFraction(string word, string category)
