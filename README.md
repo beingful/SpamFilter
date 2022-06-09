@@ -2,7 +2,7 @@
   Spam Filter
 </h1>
 <h3>
-  It's a simple WPF Spam Filter using two Naive Bayes Classifier's models (Bernoulli and Polynomial) to separate spam emails from usual correspondence. This    Spam Filter containe the feature of dynamic learning during use by changing the category manually. I am using log10(probabilities) values instead of probabilities to avoid arithmetic overflow error (probability can be lower than minimum).
+  It's a simple WPF Spam Filter using two Naive Bayes Classifier's models (Bernoulli and Polynomial) to separate spam emails from usual correspondence. This    Spam Filter uses training set, located in the database, and contains the feature of dynamic learning during use by changing the category manually. I am using log10(probability) values instead of probabilities to avoid arithmetic overflow error (probability can be lower than minimum).
 </h3>
 <ul>
   <li>
