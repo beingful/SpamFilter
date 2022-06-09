@@ -11,7 +11,7 @@
   <li>
     <h3>Spam.</h3>
     <p>
-      <img src="https://github.com/NotGasaiYuno/SpamFilter/blob/main/Attachments/2.PNG" width="49.5%" />
+      <img src="https://github.com/NotGasaiYuno/SpamFilter/blob/main/Attachments/2.png" width="49.5%" />
       <img src="https://github.com/NotGasaiYuno/SpamFilter/blob/main/Attachments/3.PNG" width="49.5%" />
       <img src="https://github.com/NotGasaiYuno/SpamFilter/blob/main/Attachments/4.PNG" width="49.5%" />
       <img src="https://github.com/NotGasaiYuno/SpamFilter/blob/main/Attachments/5.PNG" width="49.5%" />
