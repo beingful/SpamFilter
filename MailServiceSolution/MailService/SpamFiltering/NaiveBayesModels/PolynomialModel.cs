@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace MailService
 {
-    internal class PolynomialModel : INaiveBayesModel
+    public class PolynomialModel : INaiveBayesModel
     {
         private readonly InputData _data;
 
