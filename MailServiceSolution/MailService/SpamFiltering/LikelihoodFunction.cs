@@ -30,15 +30,19 @@ namespace MailService
             return random.Next(from, to);
         }
 
+        private int GetBound(ValueType value) => Convert.ToInt32(value);
+
         private double Approximation(double probability, double number)
-            => Math.Abs(probability - number);
+        {
+            return Math.Abs(probability - number);
+        }
 
         private string GetPseudorandomCategory()
         {
             string emailCategory;
 
-            int to = Math.Max(Convert.ToInt32(_bernoulli.Probability), Convert.ToInt32(_polynomial.Probability));
-            int from = Math.Min(Convert.ToInt32(_bernoulli.Probability), Convert.ToInt32(_polynomial.Probability));
+            int to = Math.Max(GetBound(_bernoulli.Probability), GetBound(_polynomial.Probability));
+            int from = Math.Min(GetBound(_bernoulli.Probability), GetBound(_polynomial.Probability));
 
             double number = PseudorandomNumber(from, to);
 
